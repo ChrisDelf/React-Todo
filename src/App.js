@@ -8,8 +8,9 @@ import ClearButton from './components/TodoComponents/ClearTask.js';
 // design `App` to be the parent component of your application.
 // this component is going to take care of state, and any change handlers you need to work with your state
 
-const todoList = [{
-}];
+const todoList = [];
+const historyList =  JSON.parse(localStorage.getItem('Todo') || '')
+const conCatList = todoList.concat(historyList);
 
 class App extends React.Component {
   constructor() {
@@ -18,13 +19,14 @@ class App extends React.Component {
       name: '',
       id: '',
       completed: false,
-      todoList: todoList
+
+      todoList: conCatList
     };
-   this.toggleItem = this.toggleItem.bind(this)
+    this.toggleItem = this.toggleItem.bind(this);
   }
 
   toggleItem = id => {
-    console.log('Id', id)
+    console.log('Id', id);
     this.setState({
       todoList: this.state.todoList.map(item => {
         if (item.id === id) {
@@ -44,19 +46,21 @@ class App extends React.Component {
       id: Date.now(),
       completed: false
     };
+
     this.setState({
       todoList: [...this.state.todoList, newItem]
     });
+    localStorage.setItem(
+      'Todo',
+      JSON.stringify([...this.state.todoList, newItem])
+    );
   };
 
- clearTask = () => {
+  clearTask = () => {
     this.setState({
       todoList: this.state.todoList.filter(item => !item.completed)
     });
   };
-
-
-
 
   render() {
     return (
@@ -68,10 +72,8 @@ class App extends React.Component {
             toggleItem={this.toggleItem}
           />
         </div>
-      <TodoForm addItem={this.addItem}
-      todoList={this.state.todoList}
-      />
-      <ClearButton clearTask = {this.clearTask}/>
+        <TodoForm addItem={this.addItem} todoList={this.state.todoList} />
+        <ClearButton clearTask={this.clearTask} />
       </div>
     );
   }
