@@ -17,7 +17,6 @@ class TodoForm extends React.Component {
     this.props.addItem(this.state.item);
   };
 
-
   render() {
     return (
       <>
@@ -25,14 +24,12 @@ class TodoForm extends React.Component {
           <input
             type="text"
             value={this.item}
+            placeholder="Todo...."
             name="item"
             onChange={this.handleChanges}
           />
           <button>Add</button>
         </form>
-        <button className="clear-btn" onClick={this.clearTask}>
-          Task Completed
-        </button>
       </>
     );
   }
