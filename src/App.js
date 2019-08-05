@@ -8,9 +8,9 @@ import ClearButton from './components/TodoComponents/ClearTask.js';
 // design `App` to be the parent component of your application.
 // this component is going to take care of state, and any change handlers you need to work with your state
 
-const todoList = [];
-const historyList =  JSON.parse(localStorage.getItem('Todo') || '')
-const conCatList = todoList.concat(historyList);
+const todoList = JSON.parse(localStorage.getItem('Todo') || '');
+// const historyList =  JSON.parse(localStorage.getItem('Todo') || '')
+// const conCatList = todoList.concat(historyList);
 
 class App extends React.Component {
   constructor() {
@@ -20,7 +20,7 @@ class App extends React.Component {
       id: '',
       completed: false,
 
-      todoList: conCatList
+      todoList: todoList
     };
     this.toggleItem = this.toggleItem.bind(this);
   }
@@ -60,6 +60,12 @@ class App extends React.Component {
     this.setState({
       todoList: this.state.todoList.filter(item => !item.completed)
     });
+
+    localStorage.setItem(
+      'Todo',
+    JSON.stringify(this.state.todoList.filter(item => !item.completed)
+    ));
+
   };
 
   render() {
